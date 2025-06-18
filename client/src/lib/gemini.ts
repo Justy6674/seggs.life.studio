@@ -1,8 +1,11 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 
-const genAI = new GoogleGenerativeAI(
-  import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "demo_key"
-);
+// Note: Using API key on client-side for development only
+// In production, route through your backend
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -10,71 +13,62 @@ export interface ChatMessage {
   timestamp: string;
 }
 
-export class GeminiService {
-  private model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
+export class OpenAIService {
   async sendMessage(message: string, conversationHistory: ChatMessage[] = []): Promise<string> {
     try {
-      const context = conversationHistory
-        .map(msg => `${msg.role}: ${msg.content}`)
-        .join('\n');
+      const messages = [
+        {
+          role: "system" as const,
+          content: "You are SeggsyBot, a supportive and knowledgeable AI companion specializing in intimacy and relationship guidance. You provide tasteful, professional advice while being warm and understanding. Focus on emotional connection, communication, and healthy relationship dynamics. Keep responses concise but meaningful."
+        },
+        ...conversationHistory.map(msg => ({
+          role: msg.role as "user" | "assistant",
+          content: msg.content
+        })),
+        {
+          role: "user" as const,
+          content: message
+        }
+      ];
 
-      const prompt = `You are SeggsyBot, a supportive and knowledgeable AI companion specializing in intimacy and relationship guidance. You provide tasteful, professional advice while being warm and understanding.
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages,
+        max_tokens: 500,
+        temperature: 0.7
+      });
 
-Context: You're helping couples and individuals improve their intimate relationships through evidence-based suggestions, communication techniques, and emotional support.
-
-Guidelines:
-- Be supportive, non-judgmental, and professional
-- Provide practical, actionable advice
-- Respect privacy and boundaries
-- Focus on emotional connection, communication, and healthy relationship dynamics
-- Keep responses concise but meaningful
-- If asked about explicit content, redirect to emotional intimacy and connection
-
-Previous conversation:
-${context}
-
-User message: ${message}
-
-Please respond as SeggsyBot:`;
-
-      const result = await this.model.generateContent(prompt);
-      return result.response.text();
+      return response.choices[0]?.message?.content || "I'm here to help with your relationship journey.";
     } catch (error) {
-      console.error('Gemini API error:', error);
-      return "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.";
+      console.error('OpenAI API error:', error);
+      throw new Error('Failed to get response from AI');
     }
   }
 
   async generateSuggestions(userContext: any): Promise<string[]> {
     try {
-      const prompt = `Based on the following user context, generate 3 personalized intimacy and relationship suggestions:
-
-User context: ${JSON.stringify(userContext)}
-
-Please provide practical, actionable suggestions that focus on:
-- Communication improvement
-- Emotional connection
-- Relationship activities
-- Personal growth within relationships
-
-Format as a JSON array of strings.`;
-
-      const result = await this.model.generateContent(prompt);
-      const response = result.response.text();
+      const prompt = `Based on this user context: ${JSON.stringify(userContext)}, generate 3 personalized, tasteful intimacy suggestions for couples. Focus on connection, communication, and romance. Return as a JSON array of strings.`;
       
-      try {
-        return JSON.parse(response);
-      } catch {
-        // Fallback if JSON parsing fails
-        return [
-          "Schedule 15 minutes of phone-free conversation daily",
-          "Practice expressing appreciation for one specific thing your partner did today",
-          "Plan a surprise activity based on something your partner mentioned recently"
-        ];
-      }
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: [
+          {
+            role: "system",
+            content: "You are an expert relationship coach. Provide tasteful, romantic suggestions for couples to deepen their connection."
+          },
+          {
+            role: "user", 
+            content: prompt
+          }
+        ],
+        response_format: { type: "json_object" },
+        max_tokens: 300
+      });
+
+      const result = JSON.parse(response.choices[0]?.message?.content || '{"suggestions": []}');
+      return result.suggestions || [];
     } catch (error) {
-      console.error('Error generating suggestions:', error);
+      console.error('OpenAI suggestions error:', error);
       return [
         "Schedule 15 minutes of phone-free conversation daily",
         "Practice expressing appreciation for one specific thing your partner did today",
@@ -84,4 +78,4 @@ Format as a JSON array of strings.`;
   }
 }
 
-export const geminiService = new GeminiService();
+export const openaiService = new OpenAIService();
