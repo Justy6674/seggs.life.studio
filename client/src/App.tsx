@@ -33,6 +33,14 @@ function Router() {
     <>
       <Navigation />
       <Switch>
+        {/* Developer Routes - Temporary for visual inspection */}
+        <Route path="/dev/dashboard" component={MembersDashboard} />
+        <Route path="/dev/boudoir" component={Boudoir} />
+        <Route path="/dev/generator" component={Generator} />
+        <Route path="/dev/blueprint" component={Blueprint} />
+        <Route path="/dev/explore" component={Explore} />
+        <Route path="/dev/settings" component={Settings} />
+        
         {isLoading || !isAuthenticated ? (
           <>
             <Route path="/" component={Landing} />
