@@ -93,15 +93,6 @@ const startingPoints = [
     icon: '✨',
     bgColor: 'from-amber-600 to-amber-800',
     href: '/members/boudoir'
-  },
-  {
-    id: 'returning',
-    title: "I'm Returning",
-    description: 'Sign in to continue your intimacy discovery journey',
-    subtitle: 'Account login',
-    icon: '🔑',
-    bgColor: 'from-slate-600 to-slate-800',
-    href: '/members/dashboard'
   }
 ];
 
