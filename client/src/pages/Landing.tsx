@@ -72,85 +72,85 @@ export default function Landing() {
       </div>
 
       {/* Features Section */}
-      <section className="py-20 bg-slate-900/95">
+      <section className="py-20 bg-card/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-amber-100 mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold text-accent mb-6">
               Your Complete Intimacy Toolkit
             </h2>
-            <p className="text-xl text-amber-100/80 max-w-3xl mx-auto">
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
               Everything you need to deepen connection, explore desires, and keep the spark alive
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-slate-800/50 border-amber-200/20 hover:border-amber-200/40 transition-all duration-300">
+            <Card className="bg-card border-accent/20 hover:border-accent/40 transition-all duration-300">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Brain className="text-white" size={32} />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Brain className="text-primary-foreground" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-amber-100 mb-4">Erotic Blueprint Quiz</h3>
-                <p className="text-amber-100/70 leading-relaxed">
+                <h3 className="text-xl font-bold text-accent mb-4">Erotic Blueprint Quiz</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   Discover your unique pathway to pleasure with our comprehensive assessment
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/50 border-amber-200/20 hover:border-amber-200/40 transition-all duration-300">
+            <Card className="bg-card border-accent/20 hover:border-accent/40 transition-all duration-300">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Zap className="text-white" size={32} />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Zap className="text-primary-foreground" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-amber-100 mb-4">SeggsyBot AI</h3>
-                <p className="text-amber-100/70 leading-relaxed">
+                <h3 className="text-xl font-bold text-accent mb-4">SeggsyBot AI</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   Your personal intimacy companion providing thoughtful guidance and insights
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/50 border-amber-200/20 hover:border-amber-200/40 transition-all duration-300">
+            <Card className="bg-card border-accent/20 hover:border-accent/40 transition-all duration-300">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Users className="text-white" size={32} />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Users className="text-primary-foreground" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-amber-100 mb-4">Partner Connection</h3>
-                <p className="text-amber-100/70 leading-relaxed">
+                <h3 className="text-xl font-bold text-accent mb-4">Partner Connection</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   Share your journey together with secure partner linking and insights
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/50 border-amber-200/20 hover:border-amber-200/40 transition-all duration-300">
+            <Card className="bg-card border-accent/20 hover:border-accent/40 transition-all duration-300">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Heart className="text-white" size={32} />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Heart className="text-primary-foreground" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-amber-100 mb-4">Boudoir Inspiration</h3>
-                <p className="text-amber-100/70 leading-relaxed">
+                <h3 className="text-xl font-bold text-accent mb-4">Boudoir Inspiration</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   Personalized conversation starters and intimate prompts tailored to your style
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/50 border-amber-200/20 hover:border-amber-200/40 transition-all duration-300">
+            <Card className="bg-card border-accent/20 hover:border-accent/40 transition-all duration-300">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Star className="text-white" size={32} />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Star className="text-primary-foreground" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-amber-100 mb-4">Message Generator</h3>
-                <p className="text-amber-100/70 leading-relaxed">
+                <h3 className="text-xl font-bold text-accent mb-4">Message Generator</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   Create personalized flirty messages that perfectly match your relationship dynamic
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/50 border-amber-200/20 hover:border-amber-200/40 transition-all duration-300">
+            <Card className="bg-card border-accent/20 hover:border-accent/40 transition-all duration-300">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Shield className="text-white" size={32} />
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Shield className="text-primary-foreground" size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-amber-100 mb-4">Complete Privacy</h3>
-                <p className="text-amber-100/70 leading-relaxed">
+                <h3 className="text-xl font-bold text-accent mb-4">Complete Privacy</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   End-to-end encryption ensures your intimate moments stay between you and your partner
                 </p>
               </CardContent>
@@ -160,19 +160,19 @@ export default function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600">
+      <section className="py-20 bg-gradient-to-r from-primary to-primary/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-6">
             Ready to Reignite Your Connection?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
             Join thousands of couples who have transformed their intimate relationships with our playful, evidence-based approach.
           </p>
           
           <Button 
             onClick={handleSignIn}
             size="lg" 
-            className="bg-white text-red-600 hover:bg-amber-50 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+            className="bg-accent text-accent-foreground hover:bg-accent/90 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
           >
             Start Your Journey Today
             <ArrowRight className="ml-2" size={20} />
