@@ -3,49 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(242, 75%, 68%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(326, 75%, 63%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(149, 63%, 51%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
+  --background: hsl(210, 14%, 31%); /* #4b4f56 */
+  --foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --muted: hsl(215, 25%, 27%); /* #334155 */
+  --muted-foreground: hsl(39, 22%, 74%);
+  --popover: hsl(215, 25%, 27%); /* #334155 */
+  --popover-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --card: hsl(215, 25%, 27%); /* #334155 */
+  --card-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --border: hsl(215, 25%, 35%);
+  --input: hsl(215, 25%, 35%);
+  --primary: hsl(0, 62%, 31%); /* #7f1d1d */
+  --primary-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --secondary: hsl(215, 25%, 27%); /* #334155 */
+  --secondary-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --accent: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --accent-foreground: hsl(0, 62%, 31%); /* #7f1d1d */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
+  --destructive-foreground: hsl(39, 22%, 84%);
+  --ring: hsl(0, 62%, 31%); /* #7f1d1d */
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(242, 75%, 68%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(326, 75%, 63%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(149, 63%, 51%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  --background: hsl(210, 14%, 31%); /* #4b4f56 */
+  --foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --muted: hsl(215, 25%, 27%); /* #334155 */
+  --muted-foreground: hsl(39, 22%, 74%);
+  --popover: hsl(215, 25%, 27%); /* #334155 */
+  --popover-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --card: hsl(215, 25%, 27%); /* #334155 */
+  --card-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --border: hsl(215, 25%, 35%);
+  --input: hsl(215, 25%, 35%);
+  --primary: hsl(0, 62%, 31%); /* #7f1d1d */
+  --primary-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --secondary: hsl(215, 25%, 27%); /* #334155 */
+  --secondary-foreground: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --accent: hsl(39, 22%, 84%); /* #d6c0a5 */
+  --accent-foreground: hsl(0, 62%, 31%); /* #7f1d1d */
   --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
+  --destructive-foreground: hsl(39, 22%, 84%);
+  --ring: hsl(0, 62%, 31%); /* #7f1d1d */
+  --radius: 0.75rem;
 }
 
 @layer base {
@@ -54,8 +54,8 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    @apply antialiased bg-background text-foreground;
+    font-family: 'Cormorant Garamond', serif;
   }
 }
 

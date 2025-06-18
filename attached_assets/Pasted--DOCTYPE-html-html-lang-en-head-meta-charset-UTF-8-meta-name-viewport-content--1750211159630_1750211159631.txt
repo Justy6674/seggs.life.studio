@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seggs.Life | Intimacy & Relationship AI</title>
+  <link rel="stylesheet" href="/styles/globals.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #4b4f56;
+      font-family: 'Cormorant Garamond', serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: #334155;
+      padding: 1rem;
+      text-align: center;
+    }
+    .header h1 {
+      color: #d6c0a5;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    .main {
+      padding: 2rem;
+    }
+    .section {
+      background: #334155;
+      border-left: 6px solid #7f1d1d;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 0.75rem;
+    }
+    .section h2 {
+      color: #d6c0a5;
+      margin-bottom: 0.5rem;
+    }
+    .button {
+      background: #7f1d1d;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .logo {
+      height: 80px;
+      margin: 0 auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <img src="/public/seggsylogo.png" alt="Seggs.Life Logo" class="logo" />
+    <h1>Seggs.Life: Your Erotic Blueprint Companion</h1>
+  </header>
+
+  <main class="main">
+    <section class="section">
+      <h2>🌟 Start Your Blueprint Journey</h2>
+      <p>Seggs.Life helps you and your partner connect deeper through the 5 Erotic Blueprints: Sensual, Sexual, Kinky, Energetic, and Shapeshifter. Powered by intelligent chat and personalized memory.</p>
+      <button class="button">Start Quiz</button>
+    </section>
+
+    <section class="section">
+      <h2>🤖 SeggsyBot AI</h2>
+      <p>Chat with your AI intimacy coach. Tailored answers, refocus controls, blueprint-based recommendations and spice-level filters included.</p>
+    </section>
+
+    <section class="section">
+      <h2>💑 Couples Dashboard</h2>
+      <p>Connect with your partner, track progress, review compatibility insights, and explore curated suggestions together.</p>
+    </section>
+
+    <section class="section">
+      <h2>🔐 Safe, Private & Personalized</h2>
+      <p>Fully confidential. Backed by Firebase, AI memory, and encrypted data handling. Built with intimacy, trust and science at the core.</p>
+    </section>
+
+    <section class="section">
+      <h2>📱 Mobile-First Experience</h2>
+      <p>Designed for phones, fast performance, and a luxurious feel. Use it solo or with your lover — anywhere, anytime.</p>
+    </section>
+
+    <section class="section">
+      <h2>💸 Subscription & Marketplace</h2>
+      <p>Free & premium tiers with access to advanced features. Shop intimacy-enhancing products aligned with your blueprint.</p>
+    </section>
+  </main>
+</body>
+</html>

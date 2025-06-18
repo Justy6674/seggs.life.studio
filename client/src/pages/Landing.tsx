@@ -8,7 +8,7 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="relative overflow-hidden min-h-screen flex items-center">
         {/* Background Hero Image */}
@@ -18,7 +18,7 @@ export default function Landing() {
             alt="Seggs.Life Studio Hero" 
             className="w-full h-full object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-900/90 via-purple-900/60 to-purple-900/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/60 to-background/40"></div>
         </div>
         
         <div className="relative px-4 py-20 md:py-32 w-full">
@@ -34,12 +34,12 @@ export default function Landing() {
               </div>
               
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-8">
-                <span className="bg-gradient-to-r from-amber-200 to-amber-100 text-transparent bg-clip-text">
+                <span className="text-accent">
                   Stay erotically connected, stay playful, explore adult desires.
                 </span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-amber-100/80 max-w-4xl mx-auto leading-relaxed mb-12">
+              <p className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed mb-12">
                 Rediscover what turns you both on—with playful, private tools for exploring desires, sparking connection, and making intimacy fun.
               </p>
 
@@ -47,7 +47,7 @@ export default function Landing() {
                 <Button 
                   onClick={handleSignIn}
                   size="lg" 
-                  className="bg-red-600 hover:bg-red-700 text-amber-100 px-8 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
                 >
                   🚀 Enter Members Area
                   <ArrowRight className="ml-2" size={20} />
@@ -56,14 +56,14 @@ export default function Landing() {
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="border-2 border-amber-200/30 hover:border-amber-200 text-amber-100 hover:text-amber-100 hover:bg-amber-200/10 px-8 py-6 text-xl font-bold rounded-2xl transition-all duration-300"
+                  className="border-2 border-accent/30 hover:border-accent text-foreground hover:text-foreground hover:bg-accent/10 px-8 py-6 text-xl font-bold rounded-2xl transition-all duration-300"
                 >
                   <Play className="mr-2" size={20} />
                   👀 Preview Features
                 </Button>
               </div>
               
-              <p className="text-amber-100/60 max-w-3xl mx-auto leading-relaxed text-lg">
+              <p className="text-foreground/60 max-w-3xl mx-auto leading-relaxed text-lg">
                 🔒 <strong>100% private and secure</strong> — Only you and your partner see your answers, ideas, and shared experiences. No judgment, just fun.
               </p>
             </div>
