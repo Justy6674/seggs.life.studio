@@ -401,32 +401,32 @@ export default function Blueprint() {
 
   // Show quiz
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 p-4">
+    <div className="min-h-screen bg-[#4b4f56] p-4">
       <div className="max-w-3xl mx-auto py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold gradient-text mb-4">Erotic Blueprint Quiz</h1>
-          <p className="text-lg text-gray-600">Discover your unique pathway to pleasure and intimacy</p>
+          <h1 className="text-4xl font-bold text-white mb-4 font-serif">Erotic Blueprint Quiz</h1>
+          <p className="text-white/80 text-lg">Discover your unique pathway to pleasure and intimacy</p>
         </div>
 
         {/* Progress */}
-        <Card className="mb-8">
+        <Card className="mb-8 bg-gradient-to-br from-blue-600 to-blue-800 border-0 text-white shadow-xl">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-bold text-white">
                 Question {currentQuestion + 1} of {blueprintQuestions.length}
               </span>
-              <span className="text-sm text-gray-600">
-                {Math.round(((currentQuestion + 1) / blueprintQuestions.length) * 100)}%
+              <span className="text-sm text-white/90">
+                {Math.round(((currentQuestion + 1) / blueprintQuestions.length) * 100)}% Complete
               </span>
             </div>
-            <Progress value={((currentQuestion + 1) / blueprintQuestions.length) * 100} className="h-2" />
+            <Progress value={((currentQuestion + 1) / blueprintQuestions.length) * 100} className="h-3 bg-white/20" />
           </CardContent>
         </Card>
 
         {/* Question */}
-        <Card className="shadow-lg">
+        <Card className="shadow-xl bg-gradient-to-br from-purple-600 to-purple-800 border-0 text-white">
           <CardHeader>
-            <CardTitle className="text-xl">
+            <CardTitle className="text-2xl font-bold text-white">
               {blueprintQuestions[currentQuestion].text}
             </CardTitle>
           </CardHeader>
@@ -437,9 +437,9 @@ export default function Blueprint() {
               className="space-y-4"
             >
               {blueprintQuestions[currentQuestion].options.map((option) => (
-                <div key={option.value} className="flex items-start space-x-3 p-4 rounded-lg border hover:bg-gray-50 cursor-pointer">
-                  <RadioGroupItem value={option.value} id={option.value} className="mt-1" />
-                  <Label htmlFor={option.value} className="flex-1 cursor-pointer leading-relaxed">
+                <div key={option.value} className="flex items-start space-x-3 p-4 rounded-lg border border-white/20 bg-white/10 hover:bg-white/20 cursor-pointer transition-colors">
+                  <RadioGroupItem value={option.value} id={option.value} className="mt-1 border-white text-white" />
+                  <Label htmlFor={option.value} className="flex-1 cursor-pointer leading-relaxed text-white font-medium">
                     {option.label}
                   </Label>
                 </div>
@@ -454,15 +454,16 @@ export default function Blueprint() {
             variant="outline"
             onClick={prevQuestion}
             disabled={currentQuestion === 0}
+            className="border-white/40 text-white hover:bg-white/20 bg-white/10 text-lg py-3 px-6"
           >
-            <ChevronLeft className="h-4 w-4 mr-2" />
+            <ChevronLeft className="h-5 w-5 mr-2" />
             Previous
           </Button>
 
           <Button
             onClick={nextQuestion}
             disabled={!answers[blueprintQuestions[currentQuestion].id]}
-            className="bg-primary text-white"
+            className="bg-gradient-to-r from-emerald-600 to-emerald-800 hover:from-emerald-700 hover:to-emerald-900 text-white text-lg py-3 px-8 font-bold"
           >
             {currentQuestion === blueprintQuestions.length - 1 ? (
               saveResultsMutation.isPending ? (
@@ -473,7 +474,7 @@ export default function Blueprint() {
             ) : (
               <>
                 Next
-                <ChevronRight className="h-4 w-4 ml-2" />
+                <ChevronRight className="h-5 w-5 ml-2" />
               </>
             )}
           </Button>
