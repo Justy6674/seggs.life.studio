@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+// Firebase backend will be handled client-side for this implementation
 import { 
   insertPartnerConnectionSchema,
   insertIntimacyTrackingSchema,
@@ -24,19 +24,9 @@ if (process.env.STRIPE_SECRET_KEY) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "demo_key");
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
-
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
+  // Health check endpoint
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', firebase: 'client-side' });
   });
 
   // Stripe subscription route

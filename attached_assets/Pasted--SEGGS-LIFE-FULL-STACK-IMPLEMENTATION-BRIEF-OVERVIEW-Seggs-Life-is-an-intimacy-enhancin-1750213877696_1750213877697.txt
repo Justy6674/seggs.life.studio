@@ -1,0 +1,179 @@
+# 🛠️ SEGGS.LIFE FULL STACK IMPLEMENTATION BRIEF
+
+## 🎯 OVERVIEW
+
+Seggs.Life is an intimacy-enhancing web app powered by Erotic Blueprint intelligence, not psychological tracking. It provides:
+
+* Blueprint quizzes
+* Partner pairing and compatibility analysis
+* An AI-powered Boudoir generator (20 topics, spiciness slider)
+* SeggsyBot AI support
+* A private members dashboard
+* Intimacy journaling (Thoughts)
+* Invite system with code-based partner sync
+
+Built with a modern front-end (Next.js or Vite), hosted on Replit, backed by Firebase Auth + Firestore, and powered by Gemini AI.
+
+---
+
+## 🔐 CORE RULES FOR DEVELOPMENT
+
+1. **NEVER alter or delete the public landing page (index.html or `/public`)**
+2. **NEVER use mood tracking, emotion logging, or psychological metrics**
+3. **Constrain all AI use to Erotic Blueprint logic**
+4. **Brand palette only (Cream, Blush Pink, Slate, Brown)**
+5. **Focus on privacy-first design, no unnecessary tracking**
+6. **User should always know where they are in the app**
+
+---
+
+## 🧠 MEMBERS FLOW
+
+### ✅ **Signup/Login (Firebase Auth)**
+
+* Firebase Email/Password
+* Store user in `users/{uid}` with `displayName`, `blueprintStatus`, `linkedPartner`, `spicinessLevel`, `identity`
+
+### 🔮 **Blueprint Quiz (/blueprint)**
+
+* 25-question quiz
+* Each 5 questions maps to 1 Blueprint type (Energetic, Sensual, Sexual, Kinky, Shapeshifter)
+* After completion, store results in `users/{uid}`:
+
+```json
+{
+  "topBlueprint": "Sensual",
+  "scores": {
+    "Sensual": 8,
+    "Energetic": 6,
+    "Sexual": 4,
+    "Kinky": 3,
+    "Shapeshifter": 2
+  }
+}
+```
+
+### 🔗 **Partner Sync (/partner-connect)**
+
+* User can generate an invite code (e.g., `ABC-123`) stored in `inviteCodes/{code}` with their UID
+* Invited partner enters code, and both UIDs are linked
+* Update both `users/{uid}` with `linkedPartner: <partnerUid>`
+
+---
+
+## 💡 BOUDOIR IDEA GENERATOR (/boudoir)
+
+### 🧠 **Function:**
+
+Generate intelligent intimacy/flirt suggestions based on:
+
+* Topic (1 of 20 listed below)
+* Spiciness (1–5)
+* User’s top blueprint
+* Partner’s blueprint (if linked)
+
+### 🔥 **Topics:**
+
+1. Naughty Texts
+2. Naughty Pictures
+3. Naughty Game Ideas
+4. I Had a Fantasy...
+5. Roleplay Scenarios
+6. Massage & Touch
+7. Toys & Accessories
+8. Adventure Ideas
+9. Morning Rituals
+10. Evening Activities
+11. Weekend Escapes
+12. Surprise Elements
+13. Connection Exercises
+14. Celebration Ideas
+15. Sensory Experiences
+16. Communication Starters
+17. Boundary Exploration
+18. Intimacy Challenges
+19. Date Night Ideas
+20. Custom Scenarios
+
+### 🌶️ **Spiciness Levels:**
+
+* `1`: Safe, playful, lighthearted
+* `2`: Flirty, suggestive, sweet
+* `3`: Cheeky, bold, romantic
+* `4`: Sensual, physical, intense
+* `5`: Erotic, daring, but still elegant
+
+### 📤 **Gemini Prompt Example:**
+
+```
+User Identity: Female
+Top Blueprint: Sensual
+Spiciness Level: 3
+Topic: Massage & Touch
+Partner Blueprint: Kinky
+
+Create 1 intimacy idea. Make it creative, emotionally intelligent, non-cringe. Do not repeat topic name. Adapt tone to spiciness level.
+```
+
+---
+
+## ❤️ COUPLES ANALYSIS (/couples-analysis)
+
+If both users have completed their Blueprint:
+
+* Show compatibility percentage
+* Display overlapping scores
+* Show AI-generated summary of strengths and friction points
+* Offer communication exercises
+* Show recommended Boudoir topics based on mutual match
+
+---
+
+## ✍️ THOUGHTS (/thoughts)
+
+* A private journal tool
+* User can record ideas, desires, fantasies
+* Optional: Mark as "share with partner" toggle
+* Stored in `thoughts/{uid}/{entryId}`
+
+---
+
+## 🧑‍💻 SEGGSYBOT (Global)
+
+* Gemini-powered assistant
+* Context-aware answers
+* Draws from user's blueprint and history
+* Use chat window fixed in app shell
+
+---
+
+## 📦 FIREBASE STRUCTURE
+
+```
+users/{uid} → profile, blueprint, partner
+inviteCodes/{code} → uid
+thoughts/{uid}/{thoughtId} → journal
+sessions/{uid}/{sessionId} → AI chats
+```
+
+---
+
+## ✅ DEPLOYMENT CHECKLIST
+
+* [ ] Landing page untouched
+* [ ] Boudoir UI fully built
+* [ ] 20 topics present and mapped
+* [ ] Quiz works and stores results
+* [ ] Partner sync functional
+* [ ] Gemini API hooked in properly
+* [ ] Brand colors only
+* [ ] ESLint clean
+* [ ] Firebase Auth connected
+* [ ] Data stored to Firestore
+* [ ] Production build passes
+
+---
+
+Ready for Replit.
+
+Let me know if you want the Gemini prompts, `.env.example`, or Firebase rules next.
