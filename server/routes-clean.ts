@@ -161,6 +161,218 @@ Return only the suggestion, no additional text.`;
     }
   });
 
+  // User profile endpoint
+  app.get('/api/user/profile/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Mock user profile data - replace with Firestore integration
+      const profiles = {
+        'demo_user_1': {
+          id: 'demo_user_1',
+          firstName: 'Alex',
+          lastName: 'Smith',
+          email: 'alex@example.com',
+          blueprintType: 'Sensual',
+          blueprintScores: {
+            sensual: 65,
+            sexual: 20,
+            energetic: 45,
+            kinky: 15,
+            shapeshifter: 30
+          },
+          partnerId: null,
+          partnerName: null,
+          partnerLinked: false,
+          createdAt: new Date().toISOString()
+        }
+      };
+
+      const profile = profiles[userId as keyof typeof profiles];
+      
+      if (!profile) {
+        return res.json({
+          id: userId,
+          blueprintType: null,
+          partnerLinked: false,
+          createdAt: new Date().toISOString()
+        });
+      }
+
+      res.json(profile);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ error: 'Failed to fetch user profile' });
+    }
+  });
+
+  // Blueprint completion endpoint
+  app.post('/api/blueprint/complete', async (req, res) => {
+    try {
+      const { userId, results } = req.body;
+      
+      if (!userId || !results) {
+        return res.status(400).json({ error: 'Missing userId or results' });
+      }
+
+      // Mock saving blueprint results - replace with Firestore integration
+      const savedResults = {
+        userId,
+        blueprintType: results.primaryType,
+        blueprintScores: results.scores,
+        completedAt: results.completedAt,
+        success: true
+      };
+
+      res.json(savedResults);
+    } catch (error) {
+      console.error("Error saving blueprint results:", error);
+      res.status(500).json({ error: 'Failed to save blueprint results' });
+    }
+  });
+
+  // Partner status endpoint
+  app.get('/api/partner/status/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Mock partner status data - replace with Firestore integration
+      const partnerStatus = {
+        id: `connection_${userId}`,
+        userId,
+        status: 'none', // 'none', 'pending', 'connected'
+        inviteCode: null,
+        partnerId: null,
+        partnerName: null,
+        createdAt: new Date().toISOString()
+      };
+
+      res.json(partnerStatus);
+    } catch (error) {
+      console.error("Error fetching partner status:", error);
+      res.status(500).json({ error: 'Failed to fetch partner status' });
+    }
+  });
+
+  // Generate partner invite code endpoint
+  app.post('/api/partner/generate-code', async (req, res) => {
+    try {
+      const { userId } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ error: 'Missing userId' });
+      }
+
+      // Generate 6-digit invite code
+      const inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+      
+      // Mock saving invite code - replace with Firestore integration
+      const connection = {
+        id: `connection_${userId}`,
+        userId,
+        status: 'pending',
+        inviteCode,
+        partnerId: null,
+        partnerName: null,
+        createdAt: new Date().toISOString()
+      };
+
+      res.json(connection);
+    } catch (error) {
+      console.error("Error generating invite code:", error);
+      res.status(500).json({ error: 'Failed to generate invite code' });
+    }
+  });
+
+  // Link partner endpoint
+  app.post('/api/partner/link', async (req, res) => {
+    try {
+      const { userId, inviteCode } = req.body;
+      
+      if (!userId || !inviteCode) {
+        return res.status(400).json({ error: 'Missing userId or inviteCode' });
+      }
+
+      // Mock partner linking - replace with Firestore integration
+      // Simulate successful connection
+      const connection = {
+        id: `connection_${userId}`,
+        userId,
+        status: 'connected',
+        partnerId: 'partner_demo',
+        partnerName: 'Sam',
+        inviteCode: null,
+        createdAt: new Date().toISOString()
+      };
+
+      res.json(connection);
+    } catch (error) {
+      console.error("Error linking partner:", error);
+      res.status(500).json({ error: 'Failed to link partner' });
+    }
+  });
+
+  // Unlink partner endpoint
+  app.post('/api/partner/unlink', async (req, res) => {
+    try {
+      const { userId } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ error: 'Missing userId' });
+      }
+
+      // Mock partner unlinking - replace with Firestore integration
+      const connection = {
+        id: `connection_${userId}`,
+        userId,
+        status: 'none',
+        partnerId: null,
+        partnerName: null,
+        inviteCode: null,
+        createdAt: new Date().toISOString()
+      };
+
+      res.json(connection);
+    } catch (error) {
+      console.error("Error unlinking partner:", error);
+      res.status(500).json({ error: 'Failed to unlink partner' });
+    }
+  });
+
+  // Recent suggestions endpoint
+  app.get('/api/user/recent-suggestions/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Mock recent suggestions - replace with Firestore integration
+      const suggestions = [
+        {
+          id: '1',
+          content: 'Create a romantic bath setting with candles and essential oils, focusing on slow, mindful touch.',
+          topic: 'Sensory Experiences',
+          createdAt: new Date(Date.now() - 86400000).toISOString() // 1 day ago
+        },
+        {
+          id: '2',
+          content: 'Write a heartfelt letter expressing your appreciation for your partner and leave it where they will find it.',
+          topic: 'Communication Starters',
+          createdAt: new Date(Date.now() - 172800000).toISOString() // 2 days ago
+        },
+        {
+          id: '3',
+          content: 'Plan a surprise picnic in your living room with favorite foods and soft music.',
+          topic: 'Date Night Ideas',
+          createdAt: new Date(Date.now() - 259200000).toISOString() // 3 days ago
+        }
+      ];
+
+      res.json(suggestions);
+    } catch (error) {
+      console.error("Error fetching recent suggestions:", error);
+      res.status(500).json({ error: 'Failed to fetch suggestions' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

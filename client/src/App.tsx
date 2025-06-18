@@ -1,85 +1,106 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { Navigation } from "@/components/layout/Navigation";
+import { BottomNavigation } from "@/components/layout/BottomNavigation";
 import { useAuth } from "@/hooks/useAuth";
 import { SeggsyBot } from "@/components/chat/SeggsyBot";
-import { Bot } from "lucide-react";
 import Landing from "@/pages/Landing";
-import Dashboard from "@/pages/Dashboard";
 import Subscribe from "@/pages/Subscribe";
 import NotFound from "@/pages/not-found";
+import BlueprintOnboarding from "@/pages/BlueprintOnboarding";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 // Members Area Pages
-import MembersDashboard from "@/pages/members/MembersDashboard";
+import ModernDashboard from "@/pages/members/ModernDashboard";
 import Boudoir from "@/pages/members/BoudoirComplete";
-import Generator from "@/pages/members/Generator";
 import Blueprint from "@/pages/members/Blueprint";
-import Explore from "@/pages/members/Explore";
+import PartnerSync from "@/pages/members/PartnerSync";
 import Settings from "@/pages/members/Settings";
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const [isBotOpen, setIsBotOpen] = useState(false);
 
   const toggleBot = () => setIsBotOpen(!isBotOpen);
   const closeBot = () => setIsBotOpen(false);
 
-  return (
-    <>
-      <Navigation />
+  // Check if user has completed blueprint quiz
+  const { data: userProfile } = useQuery({
+    queryKey: ["/api/user/profile", user?.uid],
+    enabled: !!user?.uid && isAuthenticated,
+    retry: false,
+  });
+
+  const hasBlueprint = userProfile?.blueprintType;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#f5f3f0] flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-[#7f1d1d] border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  // Show landing page for unauthenticated users
+  if (!isAuthenticated) {
+    return (
       <Switch>
-        {/* Developer Routes - Temporary for visual inspection */}
-        <Route path="/dev/dashboard" component={MembersDashboard} />
-        <Route path="/dev/boudoir" component={Boudoir} />
-        <Route path="/dev/generator" component={Generator} />
-        <Route path="/dev/blueprint" component={Blueprint} />
-        <Route path="/dev/explore" component={Explore} />
-        <Route path="/dev/settings" component={Settings} />
-        
-        {isLoading || !isAuthenticated ? (
-          <>
-            <Route path="/" component={Landing} />
-            <Route path="/subscribe" component={Subscribe} />
-          </>
-        ) : (
-          <>
-            <Route path="/" component={MembersDashboard} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/members/boudoir" component={Boudoir} />
-            <Route path="/members/generator" component={Generator} />
-            <Route path="/members/blueprint" component={Blueprint} />
-            <Route path="/members/explore" component={Explore} />
-            <Route path="/members/settings" component={Settings} />
-            <Route path="/subscribe" component={Subscribe} />
-          </>
-        )}
+        <Route path="/" component={Landing} />
+        <Route path="/subscribe" component={Subscribe} />
         <Route component={NotFound} />
       </Switch>
+    );
+  }
 
+  // Show blueprint onboarding for authenticated users without blueprint
+  if (!hasBlueprint && userProfile !== undefined) {
+    return (
+      <BlueprintOnboarding 
+        onComplete={(results) => {
+          // Refetch user profile to get updated blueprint data
+          queryClient.invalidateQueries({ queryKey: ["/api/user/profile"] });
+        }} 
+      />
+    );
+  }
+
+  // Show main app for authenticated users with completed blueprint
+  return (
+    <>
+      <div className="pb-20">
+        <Switch>
+          <Route path="/" component={ModernDashboard} />
+          <Route path="/members/dashboard" component={ModernDashboard} />
+          <Route path="/members/boudoir" component={Boudoir} />
+          <Route path="/members/blueprint" component={Blueprint} />
+          <Route path="/members/partner" component={PartnerSync} />
+          <Route path="/members/settings" component={Settings} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+
+      <BottomNavigation />
+      
       {/* SeggsyBot for authenticated users only */}
-      {isAuthenticated && (
-        <>
-          <SeggsyBot 
-            isOpen={isBotOpen} 
-            onToggle={toggleBot} 
-            onClose={closeBot} 
-          />
-          
-          {/* Bot Toggle Button */}
-          {!isBotOpen && (
-            <Button
-              onClick={toggleBot}
-              className="fixed bottom-4 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white shadow-2xl hover:scale-105 transition-all duration-300 z-40 overflow-hidden"
-            >
-              <img src="/SEGGSYCHATBOT.png" alt="SeggsyBot" className="w-8 h-8 object-cover" />
-            </Button>
-          )}
-        </>
+      <SeggsyBot 
+        isOpen={isBotOpen} 
+        onToggle={toggleBot} 
+        onClose={closeBot} 
+      />
+      
+      {/* Bot Toggle Button */}
+      {!isBotOpen && (
+        <Button
+          onClick={toggleBot}
+          className="fixed bottom-24 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-[#7f1d1d] to-[#991b1b] text-white shadow-2xl hover:scale-105 transition-all duration-300 z-40 overflow-hidden"
+        >
+          <img src="/SEGGSYCHATBOT.png" alt="SeggsyBot" className="w-8 h-8 object-cover" />
+        </Button>
       )}
     </>
   );
