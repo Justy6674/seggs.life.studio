@@ -113,6 +113,54 @@ Return only the suggestion, no additional text.`;
     }
   });
 
+  // SeggsyBot chat endpoint
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { message, conversationHistory = [] } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ error: 'Message is required' });
+      }
+
+      // Build conversation context for OpenAI
+      const messages = [
+        {
+          role: "system",
+          content: "You are SeggsyBot, an expert intimacy and relationship coach specializing in Erotic Blueprint theory. You provide warm, supportive, and practical guidance to help people improve their intimate connections. Keep responses helpful, respectful, and tasteful while being knowledgeable about intimacy, communication, and relationships."
+        },
+        ...conversationHistory.slice(-5).map((msg: any) => ({
+          role: msg.role,
+          content: msg.content
+        })),
+        {
+          role: "user",
+          content: message
+        }
+      ];
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: messages,
+        max_tokens: 300,
+        temperature: 0.7
+      });
+
+      const botResponse = {
+        role: 'assistant',
+        content: response.choices[0]?.message?.content || 'I apologize, but I experienced a brief connection issue. Could you please try asking your question again?',
+        timestamp: new Date().toISOString(),
+      };
+
+      res.json({ 
+        message: botResponse,
+        conversationId: Date.now()
+      });
+    } catch (error) {
+      console.error("Error in chat:", error);
+      res.status(500).json({ error: 'Chat service temporarily unavailable' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
