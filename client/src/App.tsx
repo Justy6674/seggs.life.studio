@@ -16,7 +16,7 @@ import NotFound from "@/pages/not-found";
 
 // Members Area Pages
 import MembersDashboard from "@/pages/members/MembersDashboard";
-import Boudoir from "@/pages/members/Boudoir";
+import Boudoir from "@/pages/members/BoudoirComplete";
 import Generator from "@/pages/members/Generator";
 import Blueprint from "@/pages/members/Blueprint";
 import Explore from "@/pages/members/Explore";

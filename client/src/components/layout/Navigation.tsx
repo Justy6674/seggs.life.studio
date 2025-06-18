@@ -81,7 +81,7 @@ export function Navigation() {
                 })}
                 <div className="flex items-center space-x-3 pl-4 border-l border-gray-200">
                   <span className="text-gray-600 text-sm">Welcome, {user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'User'}</span>
-                  <Button variant="ghost" onClick={handleSignOut} className="text-gray-600 hover:text-gray-900">
+                  <Button variant="ghost" onClick={handleSignOut} className="text-gray-600 hover:text-gray-900 text-sm">
                     Sign Out
                   </Button>
                 </div>
