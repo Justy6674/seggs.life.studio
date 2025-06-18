@@ -74,9 +74,9 @@ function Router() {
           {!isBotOpen && (
             <Button
               onClick={toggleBot}
-              className="fixed bottom-4 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white shadow-2xl hover:scale-105 transition-all duration-300 z-40"
+              className="fixed bottom-4 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white shadow-2xl hover:scale-105 transition-all duration-300 z-40 overflow-hidden"
             >
-              <Bot size={24} />
+              <img src="/SEGGSYCHATBOT.png" alt="SeggsyBot" className="w-8 h-8 object-cover" />
             </Button>
           )}
         </>

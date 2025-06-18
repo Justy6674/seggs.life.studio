@@ -125,8 +125,8 @@ export function SeggsyBot({ isOpen, onToggle, onClose }: SeggsyBotProps) {
         <div className="bg-gradient-to-r from-primary to-secondary p-4 rounded-t-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <Bot className="text-white" size={18} />
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+                <img src="/SEGGSYCHATBOT.png" alt="SeggsyBot" className="w-6 h-6 object-cover" />
               </div>
               <div>
                 <h3 className="text-white font-semibold text-sm">SeggsyBot</h3>
@@ -178,8 +178,8 @@ export function SeggsyBot({ isOpen, onToggle, onClose }: SeggsyBotProps) {
                     }`}
                   >
                     {message.role === 'assistant' && (
-                      <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Bot className="text-primary" size={12} />
+                      <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        <img src="/SEGGSYCHATBOT.png" alt="SeggsyBot" className="w-4 h-4 object-cover" />
                       </div>
                     )}
                     
@@ -203,8 +203,8 @@ export function SeggsyBot({ isOpen, onToggle, onClose }: SeggsyBotProps) {
 
                 {chatMutation.isPending && (
                   <div className="flex items-start space-x-2">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                      <Bot className="text-primary" size={12} />
+                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center overflow-hidden">
+                      <img src="/SEGGSYCHATBOT.png" alt="SeggsyBot" className="w-4 h-4 object-cover" />
                     </div>
                     <div className="bg-gray-100 rounded-lg rounded-tl-sm p-3">
                       <div className="flex space-x-1">
