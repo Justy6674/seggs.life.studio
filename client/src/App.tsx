@@ -36,7 +36,7 @@ function Router() {
     retry: false,
   });
 
-  const hasBlueprint = userProfile?.blueprintType;
+  const hasBlueprint = (userProfile as any)?.blueprintType;
 
   if (isLoading) {
     return (

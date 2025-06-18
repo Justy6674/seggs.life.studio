@@ -64,6 +64,8 @@ export default function ModernDashboard() {
     retry: false,
   });
 
+  const suggestions = (recentSuggestions as any[]) || [];
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#f5f3f0] flex items-center justify-center">
@@ -103,7 +105,7 @@ export default function ModernDashboard() {
               <span className="font-medium">Ideas Generated</span>
             </div>
             <p className="text-2xl font-bold mt-1">
-              {recentSuggestions?.length || 0}
+              {suggestions.length || 0}
             </p>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
@@ -251,7 +253,7 @@ export default function ModernDashboard() {
         </div>
 
         {/* Recent Activity */}
-        {recentSuggestions && recentSuggestions.length > 0 && (
+        {suggestions && suggestions.length > 0 && (
           <Card className="border-[#d6c0a5]/30 shadow-sm">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center justify-between text-[#4b4f56]">
@@ -269,7 +271,7 @@ export default function ModernDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {recentSuggestions.slice(0, 3).map((suggestion: any, index: number) => (
+                {suggestions.slice(0, 3).map((suggestion: any, index: number) => (
                   <div key={index} className="p-3 bg-[#f5f3f0] rounded-lg border border-[#d6c0a5]/20">
                     <p className="text-sm text-[#4b4f56] leading-relaxed">
                       {suggestion.content}

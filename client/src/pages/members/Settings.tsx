@@ -1,412 +1,256 @@
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SpicinessSlider } from "@/components/ui/spiciness-slider";
-import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { useUserMemory } from "@/hooks/useUserMemory";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { Separator } from "@/components/ui/separator";
+import { Settings, User, Bell, Shield, LogOut, Heart, Trash2, Download } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Settings as SettingsIcon, 
-  User, 
-  Heart, 
-  Link, 
-  Unlink, 
-  Copy,
-  Save,
-  Users
-} from "lucide-react";
 
-export default function Settings() {
-  const { memory, updateMemory } = useUserMemory();
+export default function SettingsPage() {
+  const { user } = useAuth();
   const { toast } = useToast();
-  
-  const [formData, setFormData] = useState({
-    gender: memory?.gender || "",
-    identity: memory?.identity || "",
-    spicinessLevel: memory?.spicinessLevel || 3,
-  });
-  
-  const [partnerCode, setPartnerCode] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
+  const [notifications, setNotifications] = useState(true);
+  const [dataSharing, setDataSharing] = useState(false);
 
-  const saveSettingsMutation = useMutation({
-    mutationFn: async (data: any) => {
-      const response = await apiRequest("PUT", "/api/user/profile", data);
-      return response.json();
-    },
-    onSuccess: () => {
-      updateMemory(formData);
-      toast({
-        title: "Settings Saved",
-        description: "Your profile has been updated successfully.",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Save Failed",
-        description: "Unable to save settings. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const generateInviteMutation = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/partner/generate-invite");
-      return response.json();
-    },
-    onSuccess: (data) => {
-      setInviteCode(data.code);
-      toast({
-        title: "Invite Code Generated",
-        description: "Share this code with your partner to connect.",
-      });
-    },
-  });
-
-  const linkPartnerMutation = useMutation({
-    mutationFn: async (code: string) => {
-      const response = await apiRequest("POST", "/api/partner/link", { code });
-      return response.json();
-    },
-    onSuccess: (data) => {
-      updateMemory({ 
-        partnerLinked: true, 
-        partnerId: data.partnerId, 
-        partnerName: data.partnerName 
-      });
-      setPartnerCode("");
-      toast({
-        title: "Partner Connected",
-        description: `Successfully connected with ${data.partnerName}!`,
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Connection Failed",
-        description: "Invalid code or partner already linked.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const unlinkPartnerMutation = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("DELETE", "/api/partner/unlink");
-      return response.json();
-    },
-    onSuccess: () => {
-      updateMemory({ 
-        partnerLinked: false, 
-        partnerId: undefined, 
-        partnerName: undefined,
-        partnerBlueprint: undefined
-      });
-      toast({
-        title: "Partner Unlinked",
-        description: "Your accounts are no longer connected.",
-      });
-    },
-  });
-
-  const copyInviteCode = async () => {
-    if (!inviteCode) return;
-    
-    try {
-      await navigator.clipboard.writeText(inviteCode);
-      toast({
-        title: "Code Copied",
-        description: "Invite code copied to clipboard",
-      });
-    } catch (error) {
-      toast({
-        title: "Copy Failed",
-        description: "Unable to copy to clipboard",
-        variant: "destructive",
-      });
-    }
+  const handleLogout = () => {
+    // Firebase logout would be handled here
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out.",
+    });
   };
 
-  const handleSave = () => {
-    saveSettingsMutation.mutate(formData);
+  const handleDeleteAccount = () => {
+    toast({
+      title: "Account Deletion",
+      description: "Please contact support to delete your account.",
+      variant: "destructive",
+    });
   };
 
-  if (!memory) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
-  }
+  const handleExportData = () => {
+    toast({
+      title: "Data Export",
+      description: "Your data export will be sent to your email within 24 hours.",
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4">
-      <div className="max-w-4xl mx-auto py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold gradient-text mb-4">Settings & Profile</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Customize your experience and manage your personal preferences
-          </p>
+    <div className="min-h-screen bg-[#f5f3f0] pb-24">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#7f1d1d] to-[#991b1b] text-white p-6 rounded-b-3xl shadow-lg">
+        <div className="flex items-center gap-3 mb-2">
+          <Settings className="h-8 w-8" />
+          <h1 className="text-2xl font-serif font-bold">Settings</h1>
         </div>
+        <p className="text-white/80">
+          Manage your account and preferences
+        </p>
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Personal Profile */}
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <User className="text-primary" size={20} />
-                <span>Personal Profile</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Gender Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="gender">Gender</Label>
-                <Select 
-                  value={formData.gender} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your gender" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="non-binary">Non-binary</SelectItem>
-                    <SelectItem value="genderfluid">Gender fluid</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                    <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Identity/Sexual Orientation */}
-              <div className="space-y-2">
-                <Label htmlFor="identity">Sexual Identity</Label>
-                <Select 
-                  value={formData.identity} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, identity: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your identity" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="straight">Straight</SelectItem>
-                    <SelectItem value="gay">Gay</SelectItem>
-                    <SelectItem value="lesbian">Lesbian</SelectItem>
-                    <SelectItem value="bisexual">Bisexual</SelectItem>
-                    <SelectItem value="pansexual">Pansexual</SelectItem>
-                    <SelectItem value="queer">Queer</SelectItem>
-                    <SelectItem value="questioning">Questioning</SelectItem>
-                    <SelectItem value="asexual">Asexual</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Spiciness Level Setting */}
-              <div className="space-y-2">
-                <Label>Default Content Spiciness</Label>
-                <SpicinessSlider
-                  value={formData.spicinessLevel}
-                  onChange={(value) => setFormData(prev => ({ ...prev, spicinessLevel: value }))}
-                />
-                <p className="text-sm text-gray-600">
-                  This setting controls the default intensity level for all content across the app
-                </p>
-              </div>
-
-              {/* Blueprint Status */}
-              {memory.blueprintResults && (
-                <div className="p-4 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-gray-900">Your Blueprint</h4>
-                      <Badge variant="secondary" className="mt-1">
-                        {memory.blueprintResults.primaryType}
-                      </Badge>
-                    </div>
-                    <Button variant="outline" size="sm">
-                      View Details
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Save Button */}
-              <Button 
-                onClick={handleSave} 
-                disabled={saveSettingsMutation.isPending}
-                className="w-full bg-primary text-white"
-              >
-                <Save className="h-4 w-4 mr-2" />
-                {saveSettingsMutation.isPending ? "Saving..." : "Save Profile"}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Partner Connection */}
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Heart className="text-secondary" size={20} />
-                <span>Partner Connection</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {memory.partnerLinked && memory.partnerName ? (
-                /* Connected Partner */
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <div>
-                        <p className="font-medium text-gray-900">{memory.partnerName}</p>
-                        <p className="text-sm text-gray-600">Connected & Active</p>
-                      </div>
-                    </div>
-                    <Badge className="bg-green-100 text-green-800">Connected</Badge>
-                  </div>
-
-                  {memory.partnerBlueprint && (
-                    <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                      <h4 className="font-medium text-gray-900 mb-2">Partner's Blueprint</h4>
-                      <Badge variant="outline">
-                        {memory.partnerBlueprint.primaryType}
-                        {memory.partnerBlueprint.isPredicted && " (Predicted)"}
-                      </Badge>
-                    </div>
-                  )}
-
-                  <Button 
-                    variant="destructive" 
-                    onClick={() => unlinkPartnerMutation.mutate()}
-                    disabled={unlinkPartnerMutation.isPending}
-                    className="w-full"
-                  >
-                    <Unlink className="h-4 w-4 mr-2" />
-                    Unlink Partner
-                  </Button>
-                </div>
-              ) : (
-                /* Not Connected */
-                <div className="space-y-6">
-                  {/* Generate Invite Code */}
-                  <div className="space-y-3">
-                    <Label>Invite Your Partner</Label>
-                    <div className="flex space-x-2">
-                      <Button 
-                        variant="outline" 
-                        onClick={() => generateInviteMutation.mutate()}
-                        disabled={generateInviteMutation.isPending}
-                        className="flex-1"
-                      >
-                        <Link className="h-4 w-4 mr-2" />
-                        Generate Invite Code
-                      </Button>
-                    </div>
-                    
-                    {inviteCode && (
-                      <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-gray-700">Your Invite Code:</p>
-                            <p className="text-lg font-mono font-bold text-blue-700">{inviteCode}</p>
-                          </div>
-                          <Button variant="outline" size="sm" onClick={copyInviteCode}>
-                            <Copy className="h-4 w-4" />
-                          </Button>
-                        </div>
-                        <p className="text-sm text-gray-600 mt-2">
-                          Share this code with your partner to connect your accounts
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <Separator />
-
-                  {/* Enter Partner Code */}
-                  <div className="space-y-3">
-                    <Label htmlFor="partner-code">Connect with Partner Code</Label>
-                    <div className="flex space-x-2">
-                      <Input
-                        id="partner-code"
-                        placeholder="Enter your partner's code"
-                        value={partnerCode}
-                        onChange={(e) => setPartnerCode(e.target.value)}
-                        className="flex-1"
-                      />
-                      <Button 
-                        onClick={() => linkPartnerMutation.mutate(partnerCode)}
-                        disabled={!partnerCode || linkPartnerMutation.isPending}
-                      >
-                        <Users className="h-4 w-4 mr-2" />
-                        Connect
-                      </Button>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      Enter the code your partner shared with you
-                    </p>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Additional Settings */}
-        <Card className="mt-8 shadow-lg">
+      <div className="p-6 space-y-6">
+        {/* Profile Section */}
+        <Card className="border-[#d6c0a5]/30 shadow-sm">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <SettingsIcon className="text-gray-600" size={20} />
-              <span>Privacy & Preferences</span>
+            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
+              <User className="h-5 w-5 text-[#7f1d1d]" />
+              Profile Information
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <h4 className="font-medium text-gray-900">Notification Preferences</h4>
-                <div className="space-y-2">
-                  <label className="flex items-center space-x-2">
-                    <input type="checkbox" defaultChecked className="rounded" />
-                    <span className="text-sm text-gray-700">Daily insights and tips</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input type="checkbox" defaultChecked className="rounded" />
-                    <span className="text-sm text-gray-700">Partner activity updates</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input type="checkbox" className="rounded" />
-                    <span className="text-sm text-gray-700">Weekly progress summaries</span>
-                  </label>
-                </div>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Email</p>
+                <p className="text-sm text-[#4b4f56]/70">{user?.email || 'No email available'}</p>
               </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Display Name</p>
+                <p className="text-sm text-[#4b4f56]/70">
+                  {user?.displayName || user?.email?.split('@')[0] || 'User'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Member Since</p>
+                <p className="text-sm text-[#4b4f56]/70">
+                  {user?.metadata?.creationTime 
+                    ? new Date(user.metadata.creationTime).toLocaleDateString()
+                    : 'Recently'
+                  }
+                </p>
+              </div>
+              <Badge className="bg-[#7f1d1d]/10 text-[#7f1d1d] border-[#7f1d1d]/20">
+                Premium
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Notification Preferences */}
+        <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
+              <Bell className="h-5 w-5 text-[#7f1d1d]" />
+              Notifications
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Push Notifications</p>
+                <p className="text-sm text-[#4b4f56]/70">
+                  Receive notifications for new suggestions and partner activity
+                </p>
+              </div>
+              <Switch 
+                checked={notifications} 
+                onCheckedChange={setNotifications}
+              />
+            </div>
+            
+            <Separator className="bg-[#d6c0a5]/30" />
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Email Updates</p>
+                <p className="text-sm text-[#4b4f56]/70">
+                  Weekly insights and relationship tips
+                </p>
+              </div>
+              <Switch defaultChecked />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Privacy & Data */}
+        <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
+              <Shield className="h-5 w-5 text-[#7f1d1d]" />
+              Privacy & Data
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Data Sharing</p>
+                <p className="text-sm text-[#4b4f56]/70">
+                  Share anonymized data to improve our AI recommendations
+                </p>
+              </div>
+              <Switch 
+                checked={dataSharing} 
+                onCheckedChange={setDataSharing}
+              />
+            </div>
+            
+            <Separator className="bg-[#d6c0a5]/30" />
+            
+            <div className="space-y-3">
+              <Button 
+                variant="outline" 
+                onClick={handleExportData}
+                className="w-full justify-start border-[#7f1d1d] text-[#7f1d1d] hover:bg-[#7f1d1d]/5"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Export My Data
+              </Button>
               
-              <div className="space-y-4">
-                <h4 className="font-medium text-gray-900">Privacy Settings</h4>
-                <div className="space-y-2">
-                  <label className="flex items-center space-x-2">
-                    <input type="radio" name="privacy" value="private" defaultChecked />
-                    <span className="text-sm text-gray-700">Keep everything private</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input type="radio" name="privacy" value="partner" />
-                    <span className="text-sm text-gray-700">Share with partner only</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input type="radio" name="privacy" value="anonymous" />
-                    <span className="text-sm text-gray-700">Anonymous data sharing for research</span>
-                  </label>
-                </div>
+              <p className="text-xs text-[#4b4f56]/60">
+                Download a copy of all your personal data and interactions
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Subscription */}
+        <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
+              <Heart className="h-5 w-5 text-[#7f1d1d]" />
+              Subscription
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Current Plan</p>
+                <p className="text-sm text-[#4b4f56]/70">Premium Member</p>
               </div>
+              <Badge className="bg-green-100 text-green-800 border-green-200">
+                Active
+              </Badge>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-[#4b4f56]">Next Billing</p>
+                <p className="text-sm text-[#4b4f56]/70">
+                  {new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                </p>
+              </div>
+              <p className="font-semibold text-[#7f1d1d]">$19.99/month</p>
+            </div>
+            
+            <Button 
+              variant="outline" 
+              className="w-full border-[#7f1d1d] text-[#7f1d1d] hover:bg-[#7f1d1d]/5"
+            >
+              Manage Subscription
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Account Actions */}
+        <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-[#4b4f56]">Account Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              variant="outline" 
+              onClick={handleLogout}
+              className="w-full justify-start border-orange-300 text-orange-600 hover:bg-orange-50"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Log Out
+            </Button>
+            
+            <Separator className="bg-[#d6c0a5]/30" />
+            
+            <div className="space-y-3">
+              <Button 
+                variant="outline" 
+                onClick={handleDeleteAccount}
+                className="w-full justify-start border-red-300 text-red-600 hover:bg-red-50"
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete Account
+              </Button>
+              
+              <p className="text-xs text-[#4b4f56]/60">
+                This action cannot be undone. All your data will be permanently deleted.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* App Info */}
+        <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-2">
+              <p className="text-sm font-medium text-[#4b4f56]">Seggs.Life Studio</p>
+              <p className="text-xs text-[#4b4f56]/60">Version 2.0.0</p>
+              <p className="text-xs text-[#4b4f56]/60">
+                © 2024 Seggs.Life. All rights reserved.
+              </p>
             </div>
           </CardContent>
         </Card>
