@@ -118,24 +118,23 @@ export default function PartnerSync() {
   const connection = partnerStatus as PartnerConnection;
 
   return (
-    <div className="min-h-screen bg-[#f5f3f0] pb-24">
+    <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#7f1d1d] to-[#991b1b] text-white p-6 rounded-b-3xl shadow-lg">
-        <div className="flex items-center gap-3 mb-2">
-          <Users className="h-8 w-8" />
-          <h1 className="text-2xl font-serif font-bold">Partner Sync</h1>
-        </div>
-        <p className="text-white/80">
+      <div className="text-center pt-16 pb-12 px-6">
+        <h1 className="text-4xl font-bold text-foreground mb-4">
+          Partner Connection
+        </h1>
+        <p className="text-muted-foreground text-lg">
           Connect with your partner for personalized couple experiences
         </p>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="px-6 pb-12 max-w-4xl mx-auto space-y-6">
         {/* Current Status */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-              <Heart className="h-5 w-5 text-[#7f1d1d]" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <Heart className="h-5 w-5 text-primary" />
               Connection Status
             </CardTitle>
           </CardHeader>
@@ -144,32 +143,32 @@ export default function PartnerSync() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-[#7f1d1d]/10 rounded-full flex items-center justify-center">
-                      <Heart className="h-6 w-6 text-[#7f1d1d]" />
+                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Heart className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#4b4f56]">
+                      <p className="font-semibold text-foreground">
                         Connected with {connection.partnerName}
                       </p>
-                      <p className="text-sm text-[#4b4f56]/70">
+                      <p className="text-sm text-muted-foreground">
                         Enjoying personalized couple experiences
                       </p>
                     </div>
                   </div>
-                  <Badge className="bg-green-100 text-green-800 border-green-200">
+                  <Badge className="bg-green-500/10 text-green-400 border-green-500/20">
                     Connected
                   </Badge>
                 </div>
                 
-                <div className="pt-4 border-t border-[#d6c0a5]/30">
-                  <p className="text-sm text-[#4b4f56]/70 mb-3">
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground mb-3">
                     Want to disconnect? You can unlink and reconnect anytime.
                   </p>
                   <Button 
                     variant="outline" 
                     onClick={() => unlinkPartnerMutation.mutate()}
                     disabled={unlinkPartnerMutation.isPending}
-                    className="border-red-300 text-red-600 hover:bg-red-50"
+                    className="border-red-500/20 text-red-400 hover:bg-red-500/10"
                   >
                     <Unlink className="h-4 w-4 mr-2" />
                     Unlink Partner
@@ -179,33 +178,32 @@ export default function PartnerSync() {
             ) : connection?.status === 'pending' && connection.inviteCode ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                    <Users className="h-6 w-6 text-orange-600" />
+                  <div className="w-12 h-12 bg-orange-500/10 rounded-full flex items-center justify-center">
+                    <Users className="h-6 w-6 text-orange-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-[#4b4f56]">
+                    <p className="font-semibold text-foreground">
                       Invitation Sent
                     </p>
-                    <p className="text-sm text-[#4b4f56]/70">
+                    <p className="text-sm text-muted-foreground">
                       Waiting for your partner to accept
                     </p>
                   </div>
-                  <Badge className="bg-orange-100 text-orange-800 border-orange-200">
+                  <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/20">
                     Pending
                   </Badge>
                 </div>
 
-                <div className="bg-[#f5f3f0] p-4 rounded-xl border border-[#d6c0a5]/30">
-                  <p className="text-sm text-[#4b4f56] mb-3">Your invite code:</p>
+                <div className="bg-background p-4 rounded-xl border border-border">
+                  <p className="text-sm text-foreground mb-3">Your invite code:</p>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-white p-3 rounded-lg border border-[#d6c0a5]/30 font-mono text-lg text-center font-bold text-[#7f1d1d]">
+                    <div className="flex-1 bg-card p-3 rounded-lg border border-border font-mono text-lg text-center font-bold text-primary">
                       {connection.inviteCode}
                     </div>
                     <Button 
                       variant="outline" 
                       size="sm"
                       onClick={() => copyToClipboard(connection.inviteCode!)}
-                      className="border-[#7f1d1d] text-[#7f1d1d]"
                     >
                       <Copy className="h-4 w-4" />
                     </Button>
@@ -213,7 +211,6 @@ export default function PartnerSync() {
                       variant="outline" 
                       size="sm"
                       onClick={() => shareInviteCode(connection.inviteCode!)}
-                      className="border-[#7f1d1d] text-[#7f1d1d]"
                     >
                       <Share className="h-4 w-4" />
                     </Button>
@@ -222,9 +219,9 @@ export default function PartnerSync() {
               </div>
             ) : (
               <div className="text-center py-6">
-                <Users className="h-16 w-16 mx-auto mb-4 text-[#d6c0a5]" />
-                <h3 className="font-semibold text-[#4b4f56] mb-2">No Partner Connected</h3>
-                <p className="text-[#4b4f56]/70 mb-6 max-w-sm mx-auto">
+                <Users className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="font-semibold text-foreground mb-2">No Partner Connected</h3>
+                <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
                   Connect with your partner to unlock personalized experiences designed for both of your blueprints
                 </p>
               </div>
@@ -234,21 +231,21 @@ export default function PartnerSync() {
 
         {/* Generate Invite Code */}
         {(!connection || connection.status === 'connected') && (
-          <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <Card className="bg-card border shadow-lg">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-                <Plus className="h-5 w-5 text-[#7f1d1d]" />
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <Plus className="h-5 w-5 text-primary" />
                 Invite Your Partner
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-[#4b4f56]/70 mb-4">
+              <p className="text-muted-foreground mb-4">
                 Generate a unique invite code to share with your partner. They'll use this code to connect your accounts.
               </p>
               <Button 
                 onClick={() => generateCodeMutation.mutate()}
                 disabled={generateCodeMutation.isPending}
-                className="w-full bg-[#7f1d1d] hover:bg-[#7f1d1d]/90 text-white"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 {generateCodeMutation.isPending ? (
                   "Generating..."
@@ -265,15 +262,15 @@ export default function PartnerSync() {
 
         {/* Enter Invite Code */}
         {(!connection || connection.status !== 'connected') && (
-          <Card className="border-[#d6c0a5]/30 shadow-sm">
+          <Card className="bg-card border shadow-lg">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-                <ArrowRight className="h-5 w-5 text-[#7f1d1d]" />
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <ArrowRight className="h-5 w-5 text-primary" />
                 Join Your Partner
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-[#4b4f56]/70 mb-4">
+              <p className="text-muted-foreground mb-4">
                 Have an invite code from your partner? Enter it below to connect your accounts.
               </p>
               <div className="space-y-4">
@@ -281,12 +278,12 @@ export default function PartnerSync() {
                   value={inviteCode}
                   onChange={(e) => setInviteCode(e.target.value)}
                   placeholder="Enter invite code"
-                  className="border-[#d6c0a5]/50 focus:border-[#7f1d1d]"
+                  className="border-border focus:border-primary"
                 />
                 <Button 
                   onClick={() => linkPartnerMutation.mutate(inviteCode)}
                   disabled={!inviteCode.trim() || linkPartnerMutation.isPending}
-                  className="w-full bg-[#7f1d1d] hover:bg-[#7f1d1d]/90 text-white"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   {linkPartnerMutation.isPending ? (
                     "Connecting..."
