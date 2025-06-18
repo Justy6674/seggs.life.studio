@@ -6,9 +6,10 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bot, User, Send, Minimize2, Maximize2, X } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { openaiService, type ChatMessage as OpenAIChatMessage } from "@/lib/openai";
 import { useToast } from "@/hooks/use-toast";
 import { useUserMemory } from "@/hooks/useUserMemory";
+import { getDevUser } from "@/lib/devAuth";
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -38,12 +39,15 @@ export function SeggsyBot({ isOpen, onToggle, onClose }: SeggsyBotProps) {
 
   const chatMutation = useMutation({
     mutationFn: async ({ message }: { message: string }) => {
-      const response = await apiRequest("POST", "/api/seggsybot/chat", { 
-        message,
-        userContext: getAIContext(),
-        conversationHistory: messages.slice(-5) // Keep last 5 messages for context
-      });
-      return response.json();
+      const conversationHistory = messages.slice(-5); // Keep last 5 messages for context
+      const response = await openaiService.sendMessage(message, conversationHistory);
+      return {
+        message: {
+          role: 'assistant' as const,
+          content: response,
+          timestamp: new Date().toISOString(),
+        }
+      };
     },
     onSuccess: (data) => {
       setMessages(prev => [...prev, data.message]);
