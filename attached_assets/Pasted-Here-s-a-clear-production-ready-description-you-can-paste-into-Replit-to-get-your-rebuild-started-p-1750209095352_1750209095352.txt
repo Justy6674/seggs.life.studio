@@ -1,0 +1,68 @@
+Here’s a clear, production-ready description you can paste into Replit to get your rebuild started properly:
+
+⸻
+
+Project Name: Seggs.Life Studio
+Framework: Next.js + Firebase + Tailwind CSS
+Stack: Vite + TypeScript + Firebase Auth + Firestore + Gemini AI (via Google GenAI SDK)
+
+⸻
+
+🧠 Description for Replit:
+
+I’m building a Next.js app called Seggs.Life Studio, a tasteful, AI-powered intimacy and relationship platform for couples and solo users.
+
+The app must include:
+	•	✅ A beautiful landing page with a hero section, tagline, buttons (“Start Your Journey”, “Sign In”), and safe imagery.
+	•	✅ An embedded SeggsyBot chat interface (powered by Gemini / OpenAI logic).
+	•	✅ A members dashboard with Tailwind-style card navigation for:
+	•	Intimacy Tracking
+	•	AI-Powered Suggestions
+	•	Blueprint Results
+	•	Partner Connect
+	•	Full Assessments
+	•	Personalization
+	•	Settings
+	•	✅ All backend data (user auth, suggestions, mood logs, partner data, etc.) to be stored in Firebase (Firestore + Auth).
+	•	✅ Include Stripe logic (billing per couple) and Gemini API integration via @google/generative-ai.
+	•	✅ UI must be mobile responsive, use modern Tailwind, and support environment variables (.env or Firebase secrets).
+
+⸻
+
+🔐 Secrets Required:
+
+These env vars must be handled securely:
+
+NEXT_PUBLIC_FIREBASE_API_KEY
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+NEXT_PUBLIC_FIREBASE_PROJECT_ID
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+NEXT_PUBLIC_FIREBASE_APP_ID
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+
+GEMINI_API_KEY
+OPENAI_API_KEY
+STRIPE_PUBLISHABLE_KEY
+STRIPE_SECRET_KEY
+NEXTAUTH_SECRET
+NEXT_PUBLIC_APP_URL
+
+
+⸻
+
+🔥 Development Goals:
+	•	Build frontend first using mock data
+	•	Skip Firebase integration for now
+	•	Use src/lib/firebase.ts as the config reference
+	•	Use Gemini SDK to simulate responses inside src/lib/gemini.ts
+	•	Ensure dashboard renders without errors even if data is mocked
+	•	Do not fail on missing .env — fallback to hardcoded demo values in dev
+
+⸻
+
+You can copy and paste this into your Replit prompt or workspace setup and say:
+
+“Start building this frontend. Use Next.js + Tailwind. Mock any Firebase or AI for now.”
+
+Let me know when you’re ready to plug Firebase or Gemini in properly — I’ll walk you through it.
