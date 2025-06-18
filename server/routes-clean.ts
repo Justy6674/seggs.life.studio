@@ -1,9 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 
-// Initialize Gemini AI for Boudoir generator
-const genAI = new GoogleGenerativeAI(process.env.VITE_OPENAI_API_KEY || "demo_key");
+// Initialize OpenAI for Boudoir generator
+const openai = new OpenAI({
+  apiKey: process.env.VITE_OPENAI_API_KEY || "demo_key",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Health check
@@ -37,16 +39,38 @@ Spiciness Guidelines:
 
 Return only the suggestion, no additional text.`;
 
-      // For now, return a structured response until Gemini is configured
-      const mockSuggestions = {
-        1: "Try writing a sweet note about something you appreciate about your connection and leave it somewhere they'll find it.",
-        2: "Send a text describing your favorite memory together and hint at creating a new one soon.",
-        3: "Plan a surprise date night at home with candles, music, and their favorite meal.",
-        4: "Create a playlist of songs that remind you of intimate moments and share it with a personal message.",
-        5: "Write a letter expressing your desires and what you'd like to explore together, then read it aloud."
-      };
+      // Use OpenAI to generate authentic suggestions
+      let suggestion = "";
+      try {
+        const response = await openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "system",
+              content: "You are an expert in intimacy and relationship guidance, specializing in Erotic Blueprint theory. Generate tasteful, creative suggestions that help couples connect more deeply."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          max_tokens: 200,
+          temperature: 0.8
+        });
 
-      const suggestion = mockSuggestions[spiciness as keyof typeof mockSuggestions] || mockSuggestions[3];
+        suggestion = response.choices[0]?.message?.content || "Create a meaningful moment of connection that honors both of your unique desires and communication styles.";
+      } catch (error) {
+        console.error("OpenAI API error:", error);
+        // Fallback only if API fails
+        const fallbackSuggestions = {
+          1: "Try writing a sweet note about something you appreciate about your connection and leave it somewhere they'll find it.",
+          2: "Send a text describing your favorite memory together and hint at creating a new one soon.",
+          3: "Plan a surprise date night at home with candles, music, and their favorite meal.",
+          4: "Create a playlist of songs that remind you of intimate moments and share it with a personal message.",
+          5: "Write a letter expressing your desires and what you'd like to explore together, then read it aloud."
+        };
+        suggestion = fallbackSuggestions[spiciness as keyof typeof fallbackSuggestions] || fallbackSuggestions[3];
+      }
       
       res.json({ 
         suggestion,

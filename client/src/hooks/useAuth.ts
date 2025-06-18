@@ -10,15 +10,22 @@ export function useAuth() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Ensure user exists in Firestore
-        await firebaseStorage.upsertUser({
+        // Ensure user exists in Firestore with proper field handling
+        const userData = {
           id: firebaseUser.uid,
           email: firebaseUser.email || undefined,
           firstName: firebaseUser.displayName?.split(' ')[0] || undefined,
           lastName: firebaseUser.displayName?.split(' ')[1] || undefined,
           profileImageUrl: firebaseUser.photoURL || undefined,
-        });
-        setUser(firebaseUser);
+        };
+        
+        try {
+          await firebaseStorage.upsertUser(userData);
+          setUser(firebaseUser);
+        } catch (error) {
+          console.error("Error creating user document:", error);
+          setUser(firebaseUser); // Still set user even if Firestore fails
+        }
       } else {
         setUser(null);
       }

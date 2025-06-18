@@ -91,15 +91,19 @@ export class FirebaseStorage {
       const userRef = doc(db, 'users', userData.id);
       const userDoc = await getDoc(userRef);
       
-      const now = new Date();
+      // Clean userData to remove undefined values
+      const cleanUserData = Object.fromEntries(
+        Object.entries(userData).filter(([_, value]) => value !== undefined)
+      );
+      
       if (userDoc.exists()) {
         await updateDoc(userRef, {
-          ...userData,
+          ...cleanUserData,
           updatedAt: serverTimestamp()
         });
       } else {
         await setDoc(userRef, {
-          ...userData,
+          ...cleanUserData,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         });
