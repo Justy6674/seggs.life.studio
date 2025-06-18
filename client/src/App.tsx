@@ -22,6 +22,7 @@ import Blueprint from "@/pages/members/Blueprint";
 import PartnerSync from "@/pages/members/PartnerSync";
 import Explore from "@/pages/members/Explore";
 import Settings from "@/pages/members/Settings";
+import Resources from "@/pages/members/Resources";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -81,6 +82,7 @@ function Router() {
           <Route path="/members/boudoir" component={Boudoir} />
           <Route path="/members/blueprint" component={Blueprint} />
           <Route path="/members/partner" component={PartnerSync} />
+          <Route path="/members/resources" component={Resources} />
           <Route path="/members/settings" component={Settings} />
           <Route component={NotFound} />
         </Switch>

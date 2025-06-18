@@ -1,4 +1,4 @@
-import { Home, Heart, Sparkles, Users, Settings } from "lucide-react";
+import { Home, Heart, Sparkles, Users, Settings, BookOpen } from "lucide-react";
 import { useLocation } from "wouter";
 
 const navigationItems = [
@@ -15,10 +15,10 @@ const navigationItems = [
     path: "/members/explore"
   },
   {
-    id: "blueprint",
-    label: "Blueprint",
-    icon: Heart,
-    path: "/members/blueprint"
+    id: "resources",
+    label: "Resources",
+    icon: BookOpen,
+    path: "/members/resources"
   },
   {
     id: "partner",
