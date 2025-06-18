@@ -38,39 +38,38 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f3f0] pb-24">
+    <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#7f1d1d] to-[#991b1b] text-white p-6 rounded-b-3xl shadow-lg">
-        <div className="flex items-center gap-3 mb-2">
-          <Settings className="h-8 w-8" />
-          <h1 className="text-2xl font-serif font-bold">Settings</h1>
-        </div>
-        <p className="text-white/80">
+      <div className="text-center pt-16 pb-12 px-6">
+        <h1 className="text-4xl font-bold text-foreground mb-4">
+          Account Settings
+        </h1>
+        <p className="text-muted-foreground text-lg">
           Manage your account and preferences
         </p>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="px-6 pb-12 max-w-4xl mx-auto space-y-6">
         {/* Profile Section */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-              <User className="h-5 w-5 text-[#7f1d1d]" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <User className="h-5 w-5 text-primary" />
               Profile Information
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Email</p>
-                <p className="text-sm text-[#4b4f56]/70">{user?.email || 'No email available'}</p>
+                <p className="font-medium text-foreground">Email</p>
+                <p className="text-sm text-muted-foreground">{user?.email || 'No email available'}</p>
               </div>
             </div>
             
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Display Name</p>
-                <p className="text-sm text-[#4b4f56]/70">
+                <p className="font-medium text-foreground">Display Name</p>
+                <p className="text-sm text-muted-foreground">
                   {user?.displayName || user?.email?.split('@')[0] || 'User'}
                 </p>
               </div>
@@ -78,15 +77,15 @@ export default function SettingsPage() {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Member Since</p>
-                <p className="text-sm text-[#4b4f56]/70">
+                <p className="font-medium text-foreground">Member Since</p>
+                <p className="text-sm text-muted-foreground">
                   {user?.metadata?.creationTime 
                     ? new Date(user.metadata.creationTime).toLocaleDateString()
                     : 'Recently'
                   }
                 </p>
               </div>
-              <Badge className="bg-[#7f1d1d]/10 text-[#7f1d1d] border-[#7f1d1d]/20">
+              <Badge className="bg-primary/10 text-primary border-primary/20">
                 Premium
               </Badge>
             </div>
@@ -94,18 +93,18 @@ export default function SettingsPage() {
         </Card>
 
         {/* Notification Preferences */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-              <Bell className="h-5 w-5 text-[#7f1d1d]" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <Bell className="h-5 w-5 text-primary" />
               Notifications
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Push Notifications</p>
-                <p className="text-sm text-[#4b4f56]/70">
+                <p className="font-medium text-foreground">Push Notifications</p>
+                <p className="text-sm text-muted-foreground">
                   Receive notifications for new suggestions and partner activity
                 </p>
               </div>
@@ -115,12 +114,12 @@ export default function SettingsPage() {
               />
             </div>
             
-            <Separator className="bg-[#d6c0a5]/30" />
+            <Separator className="bg-border" />
             
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Email Updates</p>
-                <p className="text-sm text-[#4b4f56]/70">
+                <p className="font-medium text-foreground">Email Updates</p>
+                <p className="text-sm text-muted-foreground">
                   Weekly insights and relationship tips
                 </p>
               </div>
@@ -130,18 +129,18 @@ export default function SettingsPage() {
         </Card>
 
         {/* Privacy & Data */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-              <Shield className="h-5 w-5 text-[#7f1d1d]" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <Shield className="h-5 w-5 text-primary" />
               Privacy & Data
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Data Sharing</p>
-                <p className="text-sm text-[#4b4f56]/70">
+                <p className="font-medium text-foreground">Data Sharing</p>
+                <p className="text-sm text-muted-foreground">
                   Share anonymized data to improve our AI recommendations
                 </p>
               </div>
@@ -151,19 +150,19 @@ export default function SettingsPage() {
               />
             </div>
             
-            <Separator className="bg-[#d6c0a5]/30" />
+            <Separator className="bg-border" />
             
             <div className="space-y-3">
               <Button 
                 variant="outline" 
                 onClick={handleExportData}
-                className="w-full justify-start border-[#7f1d1d] text-[#7f1d1d] hover:bg-[#7f1d1d]/5"
+                className="w-full justify-start"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Export My Data
               </Button>
               
-              <p className="text-xs text-[#4b4f56]/60">
+              <p className="text-xs text-muted-foreground">
                 Download a copy of all your personal data and interactions
               </p>
             </div>
@@ -171,37 +170,37 @@ export default function SettingsPage() {
         </Card>
 
         {/* Subscription */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-[#4b4f56]">
-              <Heart className="h-5 w-5 text-[#7f1d1d]" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <Heart className="h-5 w-5 text-primary" />
               Subscription
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Current Plan</p>
-                <p className="text-sm text-[#4b4f56]/70">Premium Member</p>
+                <p className="font-medium text-foreground">Current Plan</p>
+                <p className="text-sm text-muted-foreground">Premium Member</p>
               </div>
-              <Badge className="bg-green-100 text-green-800 border-green-200">
+              <Badge className="bg-green-500/10 text-green-400 border-green-500/20">
                 Active
               </Badge>
             </div>
             
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#4b4f56]">Next Billing</p>
-                <p className="text-sm text-[#4b4f56]/70">
+                <p className="font-medium text-foreground">Next Billing</p>
+                <p className="text-sm text-muted-foreground">
                   {new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
                 </p>
               </div>
-              <p className="font-semibold text-[#7f1d1d]">$19.99/month</p>
+              <p className="font-semibold text-primary">$19.99/month</p>
             </div>
             
             <Button 
               variant="outline" 
-              className="w-full border-[#7f1d1d] text-[#7f1d1d] hover:bg-[#7f1d1d]/5"
+              className="w-full"
             >
               Manage Subscription
             </Button>
@@ -209,33 +208,33 @@ export default function SettingsPage() {
         </Card>
 
         {/* Account Actions */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardHeader>
-            <CardTitle className="text-[#4b4f56]">Account Actions</CardTitle>
+            <CardTitle className="text-foreground">Account Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button 
               variant="outline" 
               onClick={handleLogout}
-              className="w-full justify-start border-orange-300 text-orange-600 hover:bg-orange-50"
+              className="w-full justify-start border-orange-500/20 text-orange-400 hover:bg-orange-500/10"
             >
               <LogOut className="h-4 w-4 mr-2" />
               Log Out
             </Button>
             
-            <Separator className="bg-[#d6c0a5]/30" />
+            <Separator className="bg-border" />
             
             <div className="space-y-3">
               <Button 
                 variant="outline" 
                 onClick={handleDeleteAccount}
-                className="w-full justify-start border-red-300 text-red-600 hover:bg-red-50"
+                className="w-full justify-start border-red-500/20 text-red-400 hover:bg-red-500/10"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete Account
               </Button>
               
-              <p className="text-xs text-[#4b4f56]/60">
+              <p className="text-xs text-muted-foreground">
                 This action cannot be undone. All your data will be permanently deleted.
               </p>
             </div>
@@ -243,12 +242,12 @@ export default function SettingsPage() {
         </Card>
 
         {/* App Info */}
-        <Card className="border-[#d6c0a5]/30 shadow-sm">
+        <Card className="bg-card border shadow-lg">
           <CardContent className="pt-6">
             <div className="text-center space-y-2">
-              <p className="text-sm font-medium text-[#4b4f56]">Seggs.Life Studio</p>
-              <p className="text-xs text-[#4b4f56]/60">Version 2.0.0</p>
-              <p className="text-xs text-[#4b4f56]/60">
+              <p className="text-sm font-medium text-foreground">Seggs.Life Studio</p>
+              <p className="text-xs text-muted-foreground">Version 2.0.0</p>
+              <p className="text-xs text-muted-foreground">
                 © 2024 Seggs.Life. All rights reserved.
               </p>
             </div>
