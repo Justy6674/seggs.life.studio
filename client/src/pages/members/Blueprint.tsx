@@ -225,6 +225,7 @@ export default function Blueprint() {
   };
 
   const nextQuestion = () => {
+    console.log('Next button clicked, current question:', currentQuestion);
     if (currentQuestion < blueprintQuestions.length - 1) {
       setCurrentQuestion(prev => prev + 1);
     } else {
@@ -233,6 +234,7 @@ export default function Blueprint() {
   };
 
   const prevQuestion = () => {
+    console.log('Previous button clicked, current question:', currentQuestion);
     if (currentQuestion > 0) {
       setCurrentQuestion(prev => prev - 1);
     }
