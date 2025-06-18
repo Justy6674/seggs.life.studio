@@ -20,6 +20,7 @@ import ModernDashboard from "@/pages/members/ModernDashboard";
 import Boudoir from "@/pages/members/BoudoirComplete";
 import Blueprint from "@/pages/members/Blueprint";
 import PartnerSync from "@/pages/members/PartnerSync";
+import Explore from "@/pages/members/Explore";
 import Settings from "@/pages/members/Settings";
 
 function Router() {
@@ -76,6 +77,7 @@ function Router() {
         <Switch>
           <Route path="/" component={ModernDashboard} />
           <Route path="/members/dashboard" component={ModernDashboard} />
+          <Route path="/members/explore" component={Explore} />
           <Route path="/members/boudoir" component={Boudoir} />
           <Route path="/members/blueprint" component={Blueprint} />
           <Route path="/members/partner" component={PartnerSync} />

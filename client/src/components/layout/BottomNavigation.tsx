@@ -9,10 +9,10 @@ const navigationItems = [
     path: "/members/dashboard"
   },
   {
-    id: "boudoir",
-    label: "Ideas",
+    id: "explore",
+    label: "Explore",
     icon: Sparkles,
-    path: "/members/boudoir"
+    path: "/members/explore"
   },
   {
     id: "blueprint",
@@ -38,11 +38,11 @@ export function BottomNavigation() {
   const [location, navigate] = useLocation();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#d6c0a5]/30 shadow-lg z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg z-50">
       <div className="flex items-center justify-around px-4 py-2 pb-safe">
         {navigationItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location === item.path;
+          const isActive = location === item.path || (item.path === "/members/dashboard" && location === "/");
           
           return (
             <button
@@ -50,8 +50,8 @@ export function BottomNavigation() {
               onClick={() => navigate(item.path)}
               className={`flex flex-col items-center justify-center p-2 min-w-[60px] transition-colors ${
                 isActive 
-                  ? "text-[#7f1d1d]" 
-                  : "text-[#4b4f56]/60 hover:text-[#4b4f56]"
+                  ? "text-primary" 
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <Icon 
