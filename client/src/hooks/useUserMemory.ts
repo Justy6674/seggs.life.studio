@@ -11,9 +11,21 @@ export function useUserMemory() {
     const currentPath = window.location.pathname;
     const isDeveloperRoute = currentPath.startsWith('/dev/');
     
-    if (isAuthenticated && user && user.id) {
-      // Initialize user memory from authenticated user
-      const initialMemory = userMemoryService.initializeFromUser(user);
+    if (isAuthenticated && user && user.uid) {
+      // Initialize user memory from Firebase user
+      const userData = {
+        id: user.uid,
+        firstName: user.displayName?.split(' ')[0] || null,
+        lastName: user.displayName?.split(' ')[1] || null,
+        email: user.email || null,
+        profileImageUrl: user.photoURL || null,
+        stripeCustomerId: null,
+        stripeSubscriptionId: null,
+        subscriptionStatus: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      const initialMemory = userMemoryService.initializeFromUser(userData);
       setMemory(initialMemory);
       setIsLoading(false);
 
@@ -45,7 +57,7 @@ export function useUserMemory() {
       setMemory(null);
       setIsLoading(false);
     }
-  }, [isAuthenticated, user?.id]);
+  }, [isAuthenticated, user?.uid]);
 
   return {
     memory,

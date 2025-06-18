@@ -1,10 +1,49 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Heart, Star, Users, Zap, ArrowRight, CheckCircle, Play, Shield, Lock, Brain } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Landing() {
-  const handleSignIn = () => {
-    window.location.href = "/api/login";
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn, signUp } = useAuth();
+  const { toast } = useToast();
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    try {
+      if (isSignUp) {
+        await signUp(email, password);
+        toast({
+          title: "Welcome to Seggs.Life!",
+          description: "Your account has been created successfully.",
+        });
+      } else {
+        await signIn(email, password);
+        toast({
+          title: "Welcome back!",
+          description: "You've been signed in successfully.",
+        });
+      }
+      setIsLoginOpen(false);
+    } catch (error: any) {
+      toast({
+        title: "Authentication Error",
+        description: error.message || "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,14 +83,63 @@ export default function Landing() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-                <Button 
-                  onClick={handleSignIn}
-                  size="lg" 
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-                >
-                  🚀 Enter Members Area
-                  <ArrowRight className="ml-2" size={20} />
-                </Button>
+                <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      size="lg" 
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      🚀 Enter Members Area
+                      <ArrowRight className="ml-2" size={20} />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl font-bold text-center">
+                        {isSignUp ? "Join Seggs.Life" : "Welcome Back"}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={handleAuth} className="space-y-4">
+                      <div className="space-y-2">
+                        <Input
+                          type="email"
+                          placeholder="Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          className="w-full"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Input
+                          type="password"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          className="w-full"
+                        />
+                      </div>
+                      <Button 
+                        type="submit" 
+                        className="w-full"
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Please wait..." : (isSignUp ? "Create Account" : "Sign In")}
+                      </Button>
+                      <div className="text-center">
+                        <Button
+                          type="button"
+                          variant="link"
+                          onClick={() => setIsSignUp(!isSignUp)}
+                          className="text-sm"
+                        >
+                          {isSignUp ? "Already have an account? Sign in" : "Need an account? Sign up"}
+                        </Button>
+                      </div>
+                    </form>
+                  </DialogContent>
+                </Dialog>
                 
                 <Button 
                   variant="outline" 
