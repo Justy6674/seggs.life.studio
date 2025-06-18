@@ -9,10 +9,9 @@ import { CheckCircle, Lock } from "lucide-react";
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
-if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
-  throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
-}
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLIC_KEY 
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
+  : null;
 
 const SubscribeForm = () => {
   const stripe = useStripe();
@@ -93,6 +92,10 @@ export default function Subscribe() {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
+    if (!stripePromise) {
+      return; // Skip if Stripe is not configured
+    }
+    
     // Create subscription as soon as the page loads
     apiRequest("POST", "/api/get-or-create-subscription")
       .then((res) => res.json())
@@ -103,6 +106,17 @@ export default function Subscribe() {
         console.error("Error creating subscription:", error);
       });
   }, []);
+
+  if (!stripePromise) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Payment System Not Configured</h1>
+          <p className="text-gray-600">Stripe keys are required to enable subscriptions.</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!clientSecret) {
     return (
