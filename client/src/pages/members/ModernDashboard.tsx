@@ -169,14 +169,16 @@ export default function ModernDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {startingPoints.map((point) => (
             <Link key={point.id} href={point.href}>
-              <Card className={`bg-gradient-to-br ${point.bgColor} border-0 text-white hover:scale-105 transition-all duration-300 cursor-pointer shadow-xl hover:shadow-2xl`}>
-                <CardContent className="p-6">
-                  <div className="text-center">
-                    <div className="text-4xl mb-4">{point.icon}</div>
-                    <h3 className="text-xl font-semibold mb-3">{point.title}</h3>
-                    <p className="text-white/90 text-sm leading-relaxed mb-4">
-                      {point.description}
-                    </p>
+              <Card className={`bg-gradient-to-br ${point.bgColor} border-0 text-white hover:scale-105 transition-all duration-300 cursor-pointer shadow-xl hover:shadow-2xl h-full flex flex-col`}>
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="text-center flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="text-4xl mb-4">{point.icon}</div>
+                      <h3 className="text-xl font-semibold mb-3">{point.title}</h3>
+                      <p className="text-white/90 text-sm leading-relaxed mb-4">
+                        {point.description}
+                      </p>
+                    </div>
                     <div className="inline-flex items-center gap-1 text-white/80 text-xs">
                       <ArrowRight className="h-3 w-3" />
                       <span>{point.subtitle}</span>
