@@ -257,14 +257,17 @@ export default function Landing() {
             Join thousands of couples who have transformed their intimate relationships with our playful, evidence-based approach.
           </p>
           
-          <Button 
-            onClick={handleSignIn}
-            size="lg" 
-            className="bg-accent text-accent-foreground hover:bg-accent/90 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-          >
-            Start Your Journey Today
-            <ArrowRight className="ml-2" size={20} />
-          </Button>
+          <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                size="lg" 
+                className="bg-accent text-accent-foreground hover:bg-accent/90 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              >
+                Start Your Journey Today
+                <ArrowRight className="ml-2" size={20} />
+              </Button>
+            </DialogTrigger>
+          </Dialog>
           
           <div className="flex items-center justify-center space-x-8 mt-12 text-white/80">
             <div className="flex items-center">
