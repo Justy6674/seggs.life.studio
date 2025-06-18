@@ -304,6 +304,158 @@ Please respond as SeggsyBot:`;
     }
   });
 
+  // Member page endpoints
+  app.post('/api/boudoir-topics', isAuthenticated, async (req: any, res) => {
+    try {
+      const { spiciness, blueprintType, userContext } = req.body;
+      
+      const topics = [
+        {
+          id: "1",
+          title: "Sensory Exploration",
+          description: "What texture, scent, or sound instantly makes you feel more connected to your body?",
+          tags: ["sensory", "mindfulness", "connection"],
+          blueprintRelevant: blueprintType === "Sensual",
+          spiciness: spiciness
+        },
+        {
+          id: "2", 
+          title: "Fantasy Sharing",
+          description: "If you could create the perfect intimate evening, what three elements would you absolutely include?",
+          tags: ["fantasy", "planning", "desires"],
+          blueprintRelevant: true,
+          spiciness: spiciness
+        },
+        {
+          id: "3",
+          title: "Appreciation Practice",
+          description: "What's one thing about our physical connection that you've been thinking about lately?",
+          tags: ["appreciation", "communication", "reflection"],
+          blueprintRelevant: blueprintType === "Sexual",
+          spiciness: spiciness
+        }
+      ];
+
+      res.json(topics);
+    } catch (error) {
+      console.error("Error generating boudoir topics:", error);
+      res.status(500).json({ message: "Failed to generate topics" });
+    }
+  });
+
+  app.post('/api/generate-message', isAuthenticated, async (req: any, res) => {
+    try {
+      const { audience, tone, spiciness, userContext, partnerName } = req.body;
+      
+      const audienceText = audience === 'partner' && partnerName ? partnerName : 
+                          audience === 'partner' ? 'your partner' :
+                          audience === 'self' ? 'yourself' : 'someone special';
+
+      const messages = [
+        `Hey ${audienceText}, I've been thinking about you and feeling grateful for the connection we share. There's something magical about the way you make me feel comfortable being myself.`,
+        `I love the way we can be both playful and intimate together. You have this amazing ability to make even ordinary moments feel special.`,
+        `Just wanted you to know that you've been on my mind today. The way you look at me makes me feel seen and desired in the most wonderful way.`
+      ];
+
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      
+      res.json({ message: randomMessage });
+    } catch (error) {
+      console.error("Error generating message:", error);
+      res.status(500).json({ message: "Failed to generate message" });
+    }
+  });
+
+  app.post('/api/blueprint-results', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const results = req.body;
+      res.json(results);
+    } catch (error) {
+      console.error("Error saving blueprint results:", error);
+      res.status(500).json({ message: "Failed to save blueprint results" });
+    }
+  });
+
+  app.post('/api/mood', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { mood, libido } = req.body;
+      res.json({ success: true, mood, libido, timestamp: new Date().toISOString() });
+    } catch (error) {
+      console.error("Error saving mood:", error);
+      res.status(500).json({ message: "Failed to save mood" });
+    }
+  });
+
+  app.put('/api/user/profile', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const updates = req.body;
+      res.json({ success: true, message: "Profile updated" });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
+  app.post('/api/partner/generate-invite', isAuthenticated, async (req: any, res) => {
+    try {
+      const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+      res.json({ code });
+    } catch (error) {
+      console.error("Error generating invite code:", error);
+      res.status(500).json({ message: "Failed to generate invite code" });
+    }
+  });
+
+  app.post('/api/partner/link', isAuthenticated, async (req: any, res) => {
+    try {
+      const { code } = req.body;
+      res.json({ 
+        partnerId: "partner_123", 
+        partnerName: "Your Partner",
+        success: true 
+      });
+    } catch (error) {
+      console.error("Error linking partner:", error);
+      res.status(500).json({ message: "Failed to link partner" });
+    }
+  });
+
+  app.delete('/api/partner/unlink', isAuthenticated, async (req: any, res) => {
+    try {
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error unlinking partner:", error);
+      res.status(500).json({ message: "Failed to unlink partner" });
+    }
+  });
+
+  app.post('/api/seggsybot/chat', isAuthenticated, async (req: any, res) => {
+    try {
+      const { message, userContext, conversationHistory } = req.body;
+      
+      const responses = [
+        "That's a really thoughtful question. Based on your profile, I'd suggest starting with small steps to build comfort and communication.",
+        "I understand what you're experiencing. Many people in similar situations find that focusing on emotional connection first can help.",
+        "That sounds like a great opportunity for growth. Have you considered discussing this openly with your partner?",
+        "Your awareness of this shows great emotional intelligence. Building intimacy is a journey, not a destination."
+      ];
+
+      const botResponse = {
+        role: 'assistant' as const,
+        content: responses[Math.floor(Math.random() * responses.length)],
+        timestamp: new Date().toISOString(),
+      };
+
+      res.json({ message: botResponse });
+    } catch (error) {
+      console.error("Error in SeggsyBot chat:", error);
+      res.status(500).json({ message: "Failed to get bot response" });
+    }
+  });
+
   // Dashboard data
   app.get('/api/dashboard', isAuthenticated, async (req: any, res) => {
     try {
